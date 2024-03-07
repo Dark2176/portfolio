@@ -46,7 +46,7 @@
         canvas.height = window.innerHeight;
 
         let stars = [];
-        let snowColor = 'black';
+        let snowColor = 'white';
 
         function generateStars() {
             for (let i = 0; i < 1000; i++) {
@@ -92,37 +92,19 @@
         generateStars();
         animate();
 
-        canvas.addEventListener('mousemove', function(event) {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-            addStars(mouseX, mouseY);
-            snowColor = 'rgba(173, 216, 230, 0.8)';
-        });
+        let clicked = false;
 
-        canvas.addEventListener('mouseleave', function(event) {
-            snowColor = 'black';
-        });
-
-        function addStars(mouseX, mouseY) {
-            for (let i = 0; i < 10; i++) {
-                stars.push({
-                    x: mouseX + (Math.random() - 0.5) * 100,
-                    y: mouseY + (Math.random() - 0.5) * 100,
-                    radius: Math.random() * 2 + 1,
-                    vx: Math.random() * 2 - 1,
-                    vy: Math.random() * 2 - 1,
-                    color: snowColor
-                });
+        canvas.addEventListener('click', function(event) {
+            if (!clicked) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+                addSnowflake(mouseX, mouseY);
+                snowColor = 'rgba(173, 216, 230, 0.8)';
+                clicked = true;
+            } else {
+                shakeSnowflakes();
             }
-        }
-
-        canvas.addEventListener('mousemove', function(event) {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-            addSnowflake(mouseX, mouseY);
-            snowColor = 'rgba(173, 216, 230, 0.8)';
         });
 
         function addSnowflake(mouseX, mouseY) {
@@ -132,8 +114,15 @@
                 radius: Math.random() * 2 + 1,
                 vx: Math.random() * 2 - 1,
                 vy: Math.random() * 2 - 1,
-                color: 'white'
+                color: snowColor
             });
+        }
+
+        function shakeSnowflakes() {
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].vx = Math.random() * 2 - 1;
+                stars[i].vy = Math.random() * 2 - 1;
+            }
         }
     </script>
 </body>
