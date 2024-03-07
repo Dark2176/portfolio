@@ -6,37 +6,44 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
             background-color: black;
             color: white;
             text-align: center;
         }
         canvas {
             display: block;
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
         }
         h1, p {
             font-size: 30px;
             z-index: 1;
+            position: fixed;
+            width: 100%;
+            padding-top: 20px; /* Adjust the top padding as needed */
+        }
+        h1 {
+            top: 0;
+        }
+        p {
+            top: 50px; /* Adjust the top position of the paragraph */
         }
         hr {
             width: 100%;
-            border: 2px solid blue;
+            border: 3px solid blue;
             margin: auto;
             margin-top: 20px;
             margin-bottom: 20px;
+            position: fixed;
+            top: 60px; /* Adjust the top position of the hr element */
         }
     </style>
 </head>
 <body>
     <canvas></canvas>
     <h1><strong>Welcome!</strong></h1>
-    <hr>
     <p><strong>Big project in progress. Updates coming soon!</strong></p>
+    <hr>
 
     <script>
         const canvas = document.querySelector('canvas');
@@ -46,10 +53,9 @@
         canvas.height = window.innerHeight;
 
         let stars = [];
-        let snowColor = 'white';
 
         function generateStars() {
-            for (let i = 0; i < 1000; i++) {
+            for (let i = 0; i < 500; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
@@ -66,7 +72,7 @@
                 const star = stars[i];
                 context.beginPath();
                 context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                context.fillStyle = star.color;
+                context.fillStyle = 'white';
                 context.fill();
             }
         }
@@ -100,7 +106,6 @@
                 const mouseX = event.clientX - rect.left;
                 const mouseY = event.clientY - rect.top;
                 addSnowflake(mouseX, mouseY);
-                snowColor = 'rgba(173, 216, 230, 0.8)';
                 clicked = true;
             } else {
                 shakeSnowflakes();
@@ -113,8 +118,7 @@
                 y: mouseY,
                 radius: Math.random() * 2 + 1,
                 vx: Math.random() * 2 - 1,
-                vy: Math.random() * 2 - 1,
-                color: snowColor
+                vy: Math.random() * 2 - 1
             });
         }
 
