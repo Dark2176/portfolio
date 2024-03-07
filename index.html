@@ -1,28 +1,113 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style> 
+    <style>
         body {
+            margin: 0;
+            overflow: hidden;
             background-color: black;
             color: white;
-            text-align: center; 
+            text-align: center;
         }
-        h1, p { 
-            font-size: 30px; 
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        h1, p {
+            font-size: 30px;
+            z-index: 1;
         }
         hr {
-            width: 100%; 
-            border: 2px solid blue; 
-            margin: auto; 
+            width: 100%;
+            border: 2px solid blue;
+            margin: auto;
             margin-top: 20px;
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
+    <canvas></canvas>
     <h1><strong>Welcome!</strong></h1>
     <hr>
     <p><strong>Big project in progress. Updates coming soon!</strong></p>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const stars = [];
+
+        function generateStars() {
+            for (let i = 0; i < 500; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    vx: Math.random() * 2 - 1,
+                    vy: Math.random() * 2 - 1
+                });
+            }
+        }
+
+        function drawStars() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                context.beginPath();
+                context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                context.fillStyle = 'white';
+                context.fill();
+            }
+        }
+
+        function updateStars() {
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                star.x += star.vx;
+                star.y += star.vy;
+                if (star.x < 0 || star.x > canvas.width || star.y < 0 || star.y > canvas.height) {
+                    stars.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            drawStars();
+            updateStars();
+        }
+
+        generateStars();
+        animate();
+
+        canvas.addEventListener('mousemove', function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                const dx = star.x - mouseX;
+                const dy = star.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 50) {
+                    stars.splice(i, 1);
+                    i--;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
