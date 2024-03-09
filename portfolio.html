@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark's Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        h1 {
+            font-size: 40px;
+            margin-top: 50px;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .section {
+            padding: 20px;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        hr {
+            width: 70%;
+            border: 3px solid blue;
+            margin: auto;
+            margin-top: 30px;
+        }
+        a.go-to-portfolio {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: blue;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a.go-to-portfolio:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <h1>Welcome to Dark's Portfolio!</h1>
+    <div class="section">
+        <h2>Skills</h2>
+        <p>Proficient in HTML, CSS Styling, Learning JavaScript</p>
+    </div>
+    <div class="section">
+        <h2>Interests</h2>
+        <p>Computer Science, Problem Solving</p>
+    </div>
+    <div class="section">
+        <h2>Future Goals</h2>
+        <p>Master JavaScript, Learn more languages</p>
+    </div>
+    <hr>
+    <a href="https://dark2176.github.io/portfolio/" class="go-to-portfolio">Back to Main Page</a>
+    <p>Feel free to reach out to me on Discord at 0004kt. I'll respond when I can!</p>
 
+    <script>
+        const canvas = document.querySelector('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let stars = [];
+        function generateStars() {
+            for (let i = 0; i < 500; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    vx: Math.random() * 2 - 1,
+                    vy: Math.random() * 2 - 1
+                });
+            }
+        }
+        function drawStars() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                context.beginPath();
+                context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                context.fillStyle = 'white';
+                context.fill();
+            }
+        }
+        function updateStars() {
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                star.x += star.vx;
+                star.y += star.vy;
+                if (star.x < 0 || star.x > canvas.width || star.y < 0 || star.y > canvas.height) {
+                    stars.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            drawStars();
+            updateStars();
+        }
+        generateStars();
+        animate();
+        let clicked = false;
+        canvas.addEventListener('click', function(event) {
+            if (!clicked) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+                addSnowflake(mouseX, mouseY);
+                clicked = true;
+            } else {
+                shakeSnowflakes();
+            }
+        });
+        function addSnowflake(mouseX, mouseY) {
+            stars.push({
+                x: mouseX,
+                y: mouseY,
+                radius: Math.random() * 2 + 1,
+                vx: Math.random() * 2 - 1,
+                vy: Math.random() * 2 - 1
+            });
+        }
+        function shakeSnowflakes() {
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].vx = Math.random() * 2 - 1;
+                stars[i].vy = Math.random() * 2 - 1;
+            }
+        }
+    </script>
+</body>
+</html>
