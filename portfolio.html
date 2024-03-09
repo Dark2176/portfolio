@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            background-color: black;
+            background-image: radial-gradient(circle, #131313, #000000);
             color: white;
             text-align: center;
             font-family: Arial, sans-serif;
@@ -34,10 +34,19 @@
             margin: 20px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
+            box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
+        }
+        .contact-message {
+            padding: 20px;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
         }
         hr {
-            width: 70%;
-            border: 3px solid blue;
+            width: 100%;
+            border: 5px solid blue;
             margin: auto;
             margin-top: 30px;
         }
@@ -77,7 +86,9 @@
     </div>
     <hr>
     <a href="https://dark2176.github.io/portfolio/" class="go-to-portfolio">Back to Main Page</a>
-    <p>Feel free to reach out to me on Discord at 0004kt. I'll respond when I can!</p>
+    <div class="contact-message">
+        <p>Feel free to reach out to me on Discord at 0004kt. I'll respond when I can!</p>
+    </div>
 
     <script>
         const canvas = document.querySelector('canvas');
